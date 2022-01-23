@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}
+ QUIZO | Take Quiz
+{% endblock %}
+
+{% block body %}
+<!-- Main content -->
+<div
+    style="font-size: 50px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+    QUIZO
+</div>
+<hr>
+
+    <section>
+        {% for list in array%}
+        <div style="font-size: 30px;">
+            
+            <b>Qno.{{list.qnum}}</b>
+            <br>
+            <b>{{list.question}}</b>
+        </div>
+
+        <form id="quickForm" action="/submit" method="POST" style="height: 2.5rem; font-size: 1rem;left: 20px;">
+            <br>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="mcq{{list.qnum}}" id="option1" value='{{list.option1}}' required>
+                <label class="form-check-label" for="flexRadioDefault1">
+                    {{list.option1}}
+                </label>
+            </div>
+        
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="mcq{{list.qnum}}" id="option2"  value='{{list.option2}}'>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    {{list.option2}}
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="mcq{{list.qnum}}" id="option3"  value='{{list.option3}}'>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    {{list.option3}}
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="mcq{{list.qnum}}" id="option4"  value='{{list.option4}}'>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    {{list.option4}}
+                </label>
+            </div>
+            <br>
+            {% endfor %}
+            <div style="font-size: 30px; margin-top: 2rem;">
+                <button type="submit" class="btn btn-outline-secondary" style="width: 66rem; height: 2.5rem; font-size: 1rem; left: 28px;">Submit</button>
+            </div>
+            <br>
+        </form>
+    </section>
+</div>
+
+
+{% endblock %}
+
+
+{% block navbar%}
+<li class="nav-item">
+    <a href="/quiz" class="nav-link">
+<!--<i class="nav-icon fas fa-tachometer-alt"></i> -->
+      <p>
+        Take Quiz
+      </p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="/show" class="nav-link">
+      <p>
+        Check Results
+      </p>
+    </a>
+  </li>
+<li class="nav-item">
+    <a href="/logout" class="nav-link">
+      <p>
+        Logout
+      </p>
+    </a>
+  </li>
+{% endblock %}

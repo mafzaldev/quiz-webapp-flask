@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+  QUIZO | User
+{% endblock %}
+
+{% block body %}
+<div style="font-size: 50px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+   Welcome {{var}}
+</div>
+<hr>
+Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+when an unknown printer took a galley of type and scrambled it to make a type
+specimen book. It has survived not only five centuries, but also the leap into
+electronic typesetting, remaining essentially unchanged. It was popularised
+in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+and more recently with desktop publishing software like Aldus PageMaker including
+versions of Lorem Ipsum.
+
+{% endblock %}
+
+
+{% block navbar%}
+<li class="nav-item">
+    <a href="/quizstrt" class="nav-link">
+<!--<i class="nav-icon fas fa-tachometer-alt"></i> -->
+      <p>
+        Take Quiz
+      </p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="/show" class="nav-link">
+      <p>
+        Check Results
+      </p>
+    </a>
+  </li>
+<li class="nav-item">
+    <a href="/logout" class="nav-link">
+      <p>
+        Logout
+      </p>
+    </a>
+  </li>
+{% endblock %}

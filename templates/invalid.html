@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+QUIZO | Not Registered
+{% endblock %}
+
+{% block body %}
+<div style="font-size: 50px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+   QUIZO
+</div>
+<hr>
+You are not registered in <b>QUIZO</b> <br>
+Head to the sidebar or click on the link below to get registered<br>
+
+<a href="/register"> <strong>Register here</strong></a></a>
+{% endblock %}
+
+{% block navbar%}
+<li class="nav-item">
+    <a href="/register" class="nav-link">
+<!--<i class="nav-icon fas fa-tachometer-alt"></i> -->
+      <p>
+        Register
+      </p>
+    </a>
+  </li>
+{% endblock %}

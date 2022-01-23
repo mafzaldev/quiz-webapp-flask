@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}
+  QUIZO | User
+{% endblock %}
+
+{% block body %}
+<div style="font-size: 50px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+   QUIZO
+</div>
+<hr>
+<form id="quickForm" action="/quiz" method="POST">
+      <div class="form-group mb-0"  style="margin-top: 2.5rem;">
+        You will be given Multiple Choice Questions about CEOs of different Tech Companies. You have to answer accordingly...<br> Goodluck :)
+        <br><br>
+          <button type="submit" class="btn btn-outline-secondary" style="  left: 190px">Start Quiz</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
+
+
+{% block navbar%}
+<li class="nav-item">
+    <a href="/quiz" class="nav-link">
+<!--<i class="nav-icon fas fa-tachometer-alt"></i> -->
+      <p>
+        Take Quiz
+      </p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="/show" class="nav-link">
+      <p>
+        Check Results
+      </p>
+    </a>
+  </li>
+<li class="nav-item">
+    <a href="#" class="nav-link">
+      <p>
+        Logout
+      </p>
+    </a>
+  </li>
+{% endblock %}

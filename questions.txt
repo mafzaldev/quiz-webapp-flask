@@ -1,0 +1,4 @@
+Who is the CEO of Facebook?,Tim Cook,Bill Gates,Mark Zuckerberg,Pavel Durov,Mark Zuckerberg
+Who is the CEO of Google?,Larry Page,Sundar Pichai,Shantanu Narayen,Mark Zuckerberg,Sundar Pichai
+Who is the CEO of Whatsapp?,Jan Koum,Chris Daniels,Mark Zuckerberg,Warren Buffet,Chris Daniels
+Who is the CEO of Youtube?,Susan Wojcicky,Bill Gates,Mark Zuck,Tim Cook,Susan Wojcicky

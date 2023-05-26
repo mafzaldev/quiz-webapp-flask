@@ -7,11 +7,27 @@ class Question:
     correct = ""
     qnum = ""
 
+    # create a constructor
+    def __init__(self, question, option1, option2, option3, option4, correct, qnum):
+        self.question = question
+        self.option1 = option1
+        self.option2 = option2
+        self.option3 = option3
+        self.option4 = option4
+        self.correct = correct
+        self.qnum = qnum
+
 
 class Score:
     name = ""
     email = ""
     score = ""
+
+    # create a constructor
+    def __init__(self, name, email, score):
+        self.name = name
+        self.email = email
+        self.score = score
 
 
 def get_field(line, field):
@@ -30,20 +46,18 @@ def get_field(line, field):
 
 
 def create_question_object(listElement, number):
-    questionObject = Question()
-    questionObject.question = get_field(listElement, 0)
-    questionObject.option1 = get_field(listElement, 1)
-    questionObject.option2 = get_field(listElement, 2)
-    questionObject.option3 = get_field(listElement, 3)
-    questionObject.option4 = get_field(listElement, 4)
-    questionObject.correct = get_field(listElement, 5)
-    questionObject.qnum = number
-    return questionObject
+    return Question(
+        get_field(listElement, 0),
+        get_field(listElement, 1),
+        get_field(listElement, 2),
+        get_field(listElement, 3),
+        get_field(listElement, 4),
+        get_field(listElement, 5),
+        number,
+    )
 
 
 def create_score_object(listElement):
-    scoreObject = Score()
-    scoreObject.name = get_field(listElement, 0)
-    scoreObject.email = get_field(listElement, 1)
-    scoreObject.score = get_field(listElement, 3)
-    return scoreObject
+    return Score(
+        get_field(listElement, 0), get_field(listElement, 1), get_field(listElement, 3)
+    )

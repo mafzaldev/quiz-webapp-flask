@@ -3,6 +3,9 @@ from utils import create_question_object, create_score_object, get_field
 
 app = Flask(__name__, template_folder="templates")
 
+ADMIN_EMAIL = "admin@host.local"
+ADMIN_PASSWORD = "12789"
+
 emailList = []
 passwordList = []
 wholeCredentials = []
@@ -15,19 +18,20 @@ authentic = ""
 @app.route("/quiz", methods=["POST", "GET"])
 def quiz():
     qno = 0
-    whole_quiz = []
+    quiz = []
     questions = []
-    myFile = open("questions.txt", "r")
-    questions = myFile.read().splitlines()
-    myFile.close()
 
-    for element in questions:
+    questions_file = open("questions.txt", "r")
+    questions = questions_file.read().splitlines()
+    questions_file.close()
+
+    for question in questions:
         qno += 1
-        obj = create_question_object(element, qno)
-        whole_quiz.append(obj)
+        question_object = create_question_object(question, qno)
+        quiz.append(question_object)
 
     qno = 0
-    return render_template("quiz.html", array=whole_quiz)
+    return render_template("quiz.html", array=quiz)
 
 
 @app.route("/index")
@@ -35,8 +39,9 @@ def home():
 
     global email
     global password
+    global authentic
 
-    if email == "admin@host.local" and password == "12789":
+    if email == ADMIN_EMAIL and password == ADMIN_PASSWORD:
         return render_template("admin.html")
     elif verify(email, password):
         return render_template("user.html", var=authentic)
@@ -53,7 +58,7 @@ def submit():
     name = request.form.get("name")
     email = request.form.get("email")
     password = request.form.get("password")
-    complete = (
+    user = (
         str(name)
         + ","
         + str(email)
@@ -67,14 +72,15 @@ def submit():
         + "0"
     )
 
-    myFile = open("user_data.txt", "a")
-    print(complete, file=myFile, sep="\n")
-    myFile.close()
+    users_data_file = open("users_data.txt", "a")
+    print(user, file=users_data_file, sep="\n")
+    users_data_file.close()
+
     return render_template("index.html")
 
 
 @app.route("/onlogin", methods=["POST", "GET"])
-def userVerify():
+def user_verify():
 
     global email
     global password
@@ -83,76 +89,83 @@ def userVerify():
     email = request.form.get("email")
     password = str(request.form.get("password"))
 
-    myFile = open("user_data.txt", "r")
-    wholeCredentials = myFile.read().splitlines()
-    myFile.close()
-
     if verify(email, password):
         return render_template("user.html", var=authentic)
 
-    elif email == "admin@host.local" and password == "12789":
+    elif email == ADMIN_EMAIL and password == ADMIN_PASSWORD:
         return render_template("admin.html")
     return render_template("invalid.html")
 
 
-def verify(email, pw):
+def verify(email, password):
 
+    global authentic
     emailList = []
     passwordList = []
-    global authentic
+    users = []
 
-    wholeCredentials = []
+    users_data_file = open("users_data.txt", "r")
+    users = users_data_file.read().splitlines()
+    users_data_file.close()
 
-    myFile = open("user_data.txt", "r")
-    wholeCredentials = myFile.read().splitlines()
-    myFile.close()
+    for idx in range(0, len(users)):
+        emailList.append(get_field(users[idx], 1))
+        passwordList.append(get_field(users[idx], 2))
 
-    for idx in range(0, len(wholeCredentials)):
-        emailList.append(get_field(wholeCredentials[idx], 1))
-        passwordList.append(get_field(wholeCredentials[idx], 2))
-
-    print(len(wholeCredentials))
+    print(len(users))
     print(len(emailList))
     print(len(passwordList))
 
     for idx in range(0, len(emailList)):
-        if email == emailList[idx] and pw == passwordList[idx]:
-            authentic = get_field(wholeCredentials[idx], 0)
+        if email == emailList[idx] and password == passwordList[idx]:
+            authentic = get_field(users[idx], 0)
             print(authentic)
             return True
     return False
 
 
 @app.route("/showall", methods=["POST", "GET"])
-def showll():
+def show_all():
 
-    objects_list = []
-    whole = []
+    scores_list = []
+    users = []
 
-    myFile = open("user_data.txt", "r")
-    whole = myFile.read().splitlines()
-    myFile.close()
+    user_data_file = open("users_data.txt", "r")
+    users = user_data_file.read().splitlines()
+    user_data_file.close()
 
-    for element in whole:
-        obj = create_score_object(element)
-        objects_list.append(obj)
+    for user in users:
+        user_score = create_score_object(user)
+        scores_list.append(user_score)
 
-    return render_template("showall.html", list=objects_list)
+    return render_template("showall.html", list=scores_list)
 
 
 @app.route("/addquestion", methods=["POST", "GET"])
 def add_question():
-    ques = request.form.get("question")
-    op1 = request.form.get("op1")
-    op2 = request.form.get("op2")
-    op3 = request.form.get("op3")
-    op4 = request.form.get("op4")
-    cor = request.form.get("corop")
+    question_string = request.form.get("question")
+    option_1 = request.form.get("op1")
+    option_2 = request.form.get("op2")
+    option_3 = request.form.get("op3")
+    option_4 = request.form.get("op4")
+    correct_option = request.form.get("corop")
 
-    complete = ques + "," + op1 + "," + op2 + "," + op3 + "," + op4 + "," + cor
-    myFile = open("questions.txt", "a")
-    print(complete, file=myFile, sep="\n")
-    myFile.close()
+    question = (
+        question_string
+        + ","
+        + option_1
+        + ","
+        + option_2
+        + ","
+        + option_3
+        + ","
+        + option_4
+        + ","
+        + correct_option
+    )
+    questions_file = open("questions.txt", "a")
+    print(question, file=questions_file, sep="\n")
+    questions_file.close()
     return render_template("admin.html")
 
 
@@ -160,55 +173,56 @@ def add_question():
 def submit_quiz():
 
     global email
-    wholeCredentials = []
+    users = []
 
     attempts = []
     score = 0
-    whole_quiz = []
+    quiz = []
 
-    myFile = open("questions.txt", "r")
-    questions = myFile.read().splitlines()
-    myFile.close()
+    questions_file = open("questions.txt", "r")
+    questions = questions_file.read().splitlines()
+    questions_file.close()
     number = 0
-    for element in questions:
-        obj = create_question_object(element, number)
-        whole_quiz.append(obj)
 
-    for idx in range(0, len(whole_quiz)):
+    for question in questions:
+        question_object = create_question_object(question, number)
+        quiz.append(question_object)
+
+    for idx in range(0, len(quiz)):
         mcq = "mcq" + str(idx + 1)
         attempts.append(request.form.get(mcq))
 
     for udx in attempts:
         print(udx)
 
-    for idx in range(0, len(whole_quiz)):
-        if whole_quiz[idx].correct == attempts[idx]:
+    for idx in range(0, len(quiz)):
+        if quiz[idx].correct == attempts[idx]:
             score += 1
 
-    myFile = open("user_data.txt", "r")
-    wholeCredentials = myFile.read().splitlines()
-    myFile.close()
+    user_data_file = open("users_data.txt", "r")
+    users = user_data_file.read().splitlines()
+    user_data_file.close()
 
-    for idx in range(0, len(wholeCredentials)):
-        if email == get_field(wholeCredentials[idx], 1):
-            wholeCredentials[idx] = (
-                str(get_field(wholeCredentials[idx], 0))
+    for idx in range(0, len(users)):
+        if email == get_field(users[idx], 1):
+            users[idx] = (
+                str(get_field(users[idx], 0))
                 + ","
-                + str(get_field(wholeCredentials[idx], 1))
+                + str(get_field(users[idx], 1))
                 + ","
-                + str(get_field(wholeCredentials[idx], 2))
+                + str(get_field(users[idx], 2))
                 + ","
                 + str(score)
                 + ","
                 + str(len(attempts))
                 + ","
-                + str(len(whole_quiz))
+                + str(len(quiz))
             )
 
-    myFile = open("user_data.txt", "w")
-    for record in wholeCredentials:
-        print(record, file=myFile, sep="\n")
-    myFile.close()
+    user_data_file = open("users_data.txt", "w")
+    for user in users:
+        print(user, file=user_data_file, sep="\n")
+    user_data_file.close()
 
     print("Your score is:", score)
     return render_template("user.html")
@@ -222,19 +236,20 @@ def validation():
 @app.route("/show", methods=["POST", "GET"])
 def results():
     global email
-    wholeCredentials = []
+    users = []
     attempts = 0
-    myFile = open("user_data.txt", "r")
-    wholeCredentials = myFile.read().splitlines()
-    myFile.close()
+
+    users_data_file = open("users_data.txt", "r")
+    users = users_data_file.read().splitlines()
+    users_data_file.close()
 
     score = 0
     print(email)
-    for result in wholeCredentials:
-        check = get_field(result, 1)
+    for user in users:
+        check = get_field(user, 1)
         if email == check:
-            score = str(get_field(result, 3))
-            attempts = str(get_field(result, 4))
+            score = str(get_field(user, 3))
+            attempts = str(get_field(user, 4))
 
     return render_template("result.html", var1=score, var2=attempts)
 
@@ -266,7 +281,3 @@ def logout():
     email = ""
     password = ""
     return render_template("index.html")
-
-
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")

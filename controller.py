@@ -6,8 +6,8 @@ app = Flask(__name__, template_folder="templates")
 ADMIN_EMAIL = "admin@host.local"
 ADMIN_PASSWORD = "12789"
 
-emailList = []
-passwordList = []
+email_list = []
+password_list = []
 wholeCredentials = []
 email = ""
 password = ""
@@ -100,8 +100,8 @@ def user_verify():
 def verify(email, password):
 
     global authentic
-    emailList = []
-    passwordList = []
+    email_list = []
+    password_list = []
     users = []
 
     users_data_file = open("users_data.txt", "r")
@@ -109,17 +109,13 @@ def verify(email, password):
     users_data_file.close()
 
     for idx in range(0, len(users)):
-        emailList.append(get_field(users[idx], 1))
-        passwordList.append(get_field(users[idx], 2))
+        email_list.append(get_field(users[idx], 1))
+        password_list.append(get_field(users[idx], 2))
 
-    print(len(users))
-    print(len(emailList))
-    print(len(passwordList))
 
-    for idx in range(0, len(emailList)):
-        if email == emailList[idx] and password == passwordList[idx]:
+    for idx in range(0, len(email_list)):
+        if email == email_list[idx] and password == password_list[idx]:
             authentic = get_field(users[idx], 0)
-            print(authentic)
             return True
     return False
 
@@ -192,8 +188,6 @@ def submit_quiz():
         mcq = "mcq" + str(idx + 1)
         attempts.append(request.form.get(mcq))
 
-    for udx in attempts:
-        print(udx)
 
     for idx in range(0, len(quiz)):
         if quiz[idx].correct == attempts[idx]:
@@ -224,7 +218,6 @@ def submit_quiz():
         print(user, file=user_data_file, sep="\n")
     user_data_file.close()
 
-    print("Your score is:", score)
     return render_template("user.html")
 
 
@@ -244,7 +237,6 @@ def results():
     users_data_file.close()
 
     score = 0
-    print(email)
     for user in users:
         check = get_field(user, 1)
         if email == check:

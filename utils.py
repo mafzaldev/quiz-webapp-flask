@@ -7,7 +7,6 @@ class Question:
     correct = ""
     qnum = ""
 
-    # create a constructor
     def __init__(self, question, option1, option2, option3, option4, correct, qnum):
         self.question = question
         self.option1 = option1
@@ -23,7 +22,6 @@ class Score:
     email = ""
     score = ""
 
-    # create a constructor
     def __init__(self, name, email, score):
         self.name = name
         self.email = email
@@ -31,18 +29,19 @@ class Score:
 
 
 def get_field(line, field):
-    extractedField = ""
-    character = ""
     idx = 0
-    commaFound = 0
-    while commaFound < field + 1 and idx < len(line):
+    character = ""
+    comma_found = 0
+    extracted_field = ""
+
+    while comma_found < field + 1 and idx < len(line):
         character = line[idx]
         if character == ",":
-            commaFound += 1
-        elif commaFound == field:
-            extractedField = extractedField + character
+            comma_found += 1
+        elif comma_found == field:
+            extracted_field = extracted_field + character
         idx += 1
-    return extractedField
+    return extracted_field
 
 
 def create_question_object(listElement, number):
